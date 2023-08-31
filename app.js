@@ -1,18 +1,19 @@
-const express = require('express')
-const path = require('path')
+const express = require("express");
+const app = express();
 
-const app = express()
+const people = require('./routes/people')
+const auth = require('./routes/auth')
 
-app.use(express.static('./public'))
+// Static assets
+app.use(express.static("./methods-public"));
+// Parse from data
+app.use(express.urlencoded({ extended: false }));
+// Parse json
+app.use(express.json());
 
-// app.get('/', (req, res)=> {
-//   res.sendFile(path.resolve(__dirname, './navbar-app/index.html'))
-// })
+app.use('/api/people', people)
+app.use('/login', auth)
 
-app.all('/', (req, res)=> {
-  res.status(404).send('Resource not found')
-})
-
-app.listen(5050, ()=> {
-  console.log('server is listenning on port 5050..........')
-})
+app.listen(5173, () => {
+  console.log("Server is live.......");
+});
